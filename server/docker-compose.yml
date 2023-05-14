@@ -1,0 +1,23 @@
+version: "1.0"
+
+services:
+    services-app:
+        build: ./services/app
+        container_name: app-services
+        ports:
+            - "4002:4002"
+        environment:
+            - DATABASE_URL= postgres://postgres:nnEukyR8JkciUvyS@db.weihurspkomqkdwpqwab.supabase.co:6543/postgres
+    services-user:
+        build: ./services/users
+        container_name: user-services
+        ports:
+            - "4001:4001"
+    orchestrator:
+        build: ./orchestrator
+        container_name: orchestrator
+        ports:
+            - "80:80"
+        environment:
+            - BASE_URL_USERS=http://user-services:4001/user
+            - BASE_URL_PRODUCT=http://app-services:4002/courses
